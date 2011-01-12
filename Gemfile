@@ -6,6 +6,7 @@
 
 source :gemcutter
 
-gem 'daemon-kit', '>= 0.1.8.1'
+gem 'daemon-kit', '~> 0.1.8.1'
 gem 'eventmachine'
-gem 'rufus-scheduler', '>= 2.0.8'
+gem 'rufus-scheduler', '~> 2.0.8'
+gem 'rails', '~> 2.3.10'
