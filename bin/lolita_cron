@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby1.8
+#
+# Stub executable for lolita_cron
+#
+
+# Load cron
+require File.expand_path(File.join(File.dirname(__FILE__),'..','lib','lolita_cron','config','environment'))
+
+# Load daemon
+DaemonKit::Application.exec( DAEMON_ROOT + '/libexec/lolita_cron-daemon.rb' )
