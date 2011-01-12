@@ -29,21 +29,14 @@ Add cron tasks into directory "lib/crontab", rules:
         # every day of the week at 22:00 (10pm)
         RssFeed.run
       end
-      
-      # this is optional
-      def self.finished status, error_msg
-        case status
-        when :success
-        when :failed
-        end
-      end
     end
 
-The "self.finished" is optional, it will be executed after every scheduled task. So you can send bug if task is failed or store 
-all results into DB.
-Information about time format for "schedule" method you can get at "rufus-scheduler" https://github.com/jmettraux/rufus-scheduler
-Some examples:
+Information about time format for "schedule" method you can get at "rufus-scheduler" https://github.com/jmettraux/rufus-scheduler. Some examples:
 
+    schedule :every, '5m' do
+      puts 'check blood pressure'
+    end
+    
     schedule :in, '20m' do
       puts "order ristretto"
     end
@@ -53,15 +46,22 @@ Some examples:
       puts 'order pizza'
     end
   
-  
     schedule :cron, '0 22 * * 1-5' do
       # every day of the week at 22:00 (10pm)
       puts 'activate security system'
     end
-  
-  
-    schedule :every, '5m' do
-      puts 'check blood pressure'
+
+### OVERRIDE SETTINGS
+
+You can create "config/lolita_cron.rb" and change LolitaCron behavior.
+
+##### Handle exceptions
+
+Add this to "config/lolita_cron.rb" and send exception as email.
+
+    Lolita::Cron.handle_exception do |job_name, exception|
+      msg = "#{"#{exception}\n\n#{$@.join("\n")}"}"
+      # deliver_bug "lolita_cron task #{job_name} failed", msg
     end
 
 ### DAEMON USAGE
@@ -70,3 +70,4 @@ Start and stop daemon by rake tasks:
 
   - rake lolita_cron:start
   - rake lolita_cron:stop
+  - rake lolita_cron:restart

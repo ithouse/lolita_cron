@@ -1,8 +1,14 @@
 ENV['DAEMON_ENV'] ||= 'development'
 
-# Load Rails
+# Boot Rails
 ENV["RAILS_ENV"] ||= 'development'
-require File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','..','..','config','environment')) unless defined?(RAILS_ROOT)
+require File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','..','..','config','boot'))
+
+# Load rake tasks, so we can use them in our cron tasks
+require 'rake'
+require 'rake/testtask'
+require 'rake/rdoctask'
+require 'tasks/rails'
 
 # Boot up
 require File.join(File.dirname(__FILE__), 'boot')

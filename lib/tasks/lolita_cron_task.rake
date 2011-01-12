@@ -18,4 +18,10 @@ namespace :lolita_cron do
       system "ruby bin/lolita_cron stop -e #{RAILS_ENV} --log #{LOG_FILE} --pidfile #{PID_FILE}"
     end
   end
+  
+  desc "Restart lolita_cron daemon"
+  task :restart do
+    Rake::Task["lolita_cron:stop"].invoke
+    Rake::Task["lolita_cron:start"].invoke   
+  end
 end
