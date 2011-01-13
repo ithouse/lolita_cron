@@ -7,6 +7,7 @@ DAEMON_ROOT = "#{File.expand_path(File.dirname(__FILE__))}/.." unless defined?( 
 begin
   require File.expand_path('../../.bundle/environment', __FILE__)
 rescue LoadError
+  ENV['BUNDLE_GEMFILE'] ||= "#{DAEMON_ROOT}/../../Gemfile"
   require 'rubygems'
   require 'bundler'
   Bundler.setup

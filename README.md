@@ -75,16 +75,19 @@ Start and stop daemon by rake tasks:
 ### CAPISTRANO
 
     namespace :lolita_cron do
-      desc "Stop LolitaCron Daemon"
-      task :stop, :roles => :app do
-        rails_env = fetch(:rails_env, "staging")
-        run "cd #{previous_release} && if [ -d lib/crontab/ ] ; then rake RAILS_ENV=#{rails_env} lolita_cron:stop ; fi"
-      end
-      desc "Start LolitaCron Daemon"
-      task :start, :roles => :app do
-        rails_env = fetch(:rails_env, "staging")
-        run "cd #{current_path} && if [ -d lib/crontab/ ] ; then rake RAILS_ENV=#{rails_env} lolita_cron:start ; fi"
+      desc "Restart LolitaCron Daemon"
+      task :restart, :roles => :app do
+        rails_env = fetch(:rails_env)
+        run "cd #{fetch(:release_path)} && if [ -d lib/crontab/ ] ; then rake RAILS_ENV=#{rails_env} lolita_cron:restart ; fi"
       end
     end
-    after "deploy:update_code", "lolita_cron:stop"
-    after "deploy:cleanup", "lolita_cron:start"
+    after "deploy:update_code", "lolita_cron:restart"
+
+### GOD AND MONIT
+
+You can generate config files like:
+
+  - DAEMON_ENV=production rake lolita_cron:gen_god
+  - DAEMON_ENV=production rake lolita_cron:gen_monit
+  
+Now you have "config/monit_production.conf" and "config/lolita_cron_production.god"
