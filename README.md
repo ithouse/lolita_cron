@@ -1,8 +1,8 @@
 ### LolitaCron
 
-Cron daemon for Rails
+Cron alike daemon for Rails.
 
-Built top of:
+Runs on:
 
   - https://github.com/kennethkalmer/daemon-kit
   - https://github.com/jmettraux/rufus-scheduler
@@ -71,3 +71,20 @@ Start and stop daemon by rake tasks:
   - rake lolita_cron:start
   - rake lolita_cron:stop
   - rake lolita_cron:restart
+  
+### CAPISTRANO
+
+    namespace :lolita_cron do
+      desc "Stop LolitaCron Daemon"
+      task :stop, :roles => :app do
+        rails_env = fetch(:rails_env, "staging")
+        run "cd #{previous_release} && if [ -d lib/crontab/ ] ; then rake RAILS_ENV=#{rails_env} lolita_cron:stop ; fi"
+      end
+      desc "Start LolitaCron Daemon"
+      task :start, :roles => :app do
+        rails_env = fetch(:rails_env, "staging")
+        run "cd #{current_path} && if [ -d lib/crontab/ ] ; then rake RAILS_ENV=#{rails_env} lolita_cron:start ; fi"
+      end
+    end
+    after "deploy:update_code", "lolita_cron:stop"
+    after "deploy:cleanup", "lolita_cron:start"

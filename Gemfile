@@ -4,7 +4,8 @@
 # deployment will ensure that the bundle required by your daemon is properly
 # installed.
 
-source :gemcutter
+source "http://gemcutter.org"
+source "http://gems.github.com"
 
 gem 'daemon-kit', '~> 0.1.8.1'
 gem 'eventmachine'
