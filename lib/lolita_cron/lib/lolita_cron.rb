@@ -14,11 +14,11 @@ module Lolita
       end
       def load_tasks
         Dir.glob(RAILS_ROOT + "/lib/crontab/*_task.rb").each do |name|
-          require name
           task_name = File.basename(name).gsub(".rb","").camelize
+          require name
           task_name.constantize
-          DaemonKit.logger.info "Registered task: #{task_name}"
-        end
+          DaemonKit.logger.info "Registered task: #{task_name}"              
+        end          
       end
     end
     

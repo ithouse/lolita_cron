@@ -3,16 +3,6 @@
 
 DAEMON_ROOT = "#{File.expand_path(File.dirname(__FILE__))}/.." unless defined?( DAEMON_ROOT )
 
-# Use Bundler (preferred)
-begin
-  require File.expand_path('../../.bundle/environment', __FILE__)
-rescue LoadError
-  ENV['BUNDLE_GEMFILE'] ||= "#{DAEMON_ROOT}/../../Gemfile"
-  require 'rubygems'
-  require 'bundler'
-  Bundler.setup
-end
-
 module DaemonKit
   class << self
     def boot!

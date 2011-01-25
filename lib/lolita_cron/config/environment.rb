@@ -14,8 +14,13 @@ require 'tasks/rails'
 ENV['DAEMON_ENV'] ||= ENV["RAILS_ENV"]
 require File.join(File.dirname(__FILE__), 'boot')
 
-# Auto-require default libraries and those for the current Rails environment.
-Bundler.require :default, DaemonKit.env
+require 'rubygems'
+
+gem 'daemon-kit', '~> 0.1.8.1'
+gem 'eventmachine'
+gem 'rufus-scheduler', '~> 2.0.8'
+
+require('ruby-debug') unless RAILS_ENV == 'production'
 
 DaemonKit::Initializer.run do |config|
   config.daemon_name = "lolita_cron"

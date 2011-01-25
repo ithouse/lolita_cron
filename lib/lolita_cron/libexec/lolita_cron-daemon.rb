@@ -16,7 +16,10 @@ DaemonKit::EM.run
 Lolita::Cron::load_config
 
 # Load cron tasks
-Lolita::Cron::load_tasks
-
+begin
+  Lolita::Cron::load_tasks
+rescue Exception => exception
+  DaemonKit.logger.error( "Load tasks failed caught exception: '#{"#{exception}\n\n#{$@.join("\n")}"}'" )
+end
 # Run our 'cron' dameon, suspending the current thread
 DaemonKit::Cron.run
