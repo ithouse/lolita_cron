@@ -20,7 +20,7 @@ gem 'daemon-kit', '~> 0.1.8.1'
 gem 'eventmachine'
 gem 'rufus-scheduler', '~> 2.0.8'
 
-require('ruby-debug') unless RAILS_ENV == 'production'
+require('ruby-debug') if RAILS_ENV == 'development'
 
 DaemonKit::Initializer.run do |config|
   config.daemon_name = "lolita_cron"
